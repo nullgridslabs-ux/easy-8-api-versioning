@@ -5,6 +5,18 @@ import os
 app = Flask(__name__)
 FLAG = os.environ.get("FLAG","CTF{dev}")
 
+@app.route("/")
+def index():
+    return """
+<h2>Admin Statistics API</h2>
+<p>Versioned admin reporting service.</p>
+<ul>
+<li>GET /api/v1/admin/stats</li>
+<li>GET /api/v2/admin/stats</li>
+<li>GET /health</li>
+</ul>
+"""
+
 @app.route("/health")
 def health():
     return "ok"
@@ -19,4 +31,5 @@ def v2():
     return jsonify({"error":"admin only"}),403
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
